@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Provider\PaymentGateway.Provider.csproj" />
   </ItemGroup>
 
 </Project>
