@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using DataLayer.Model.Authenticate;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.DbContext
@@ -17,5 +18,6 @@ namespace DataLayer.DbContext
             base.OnModelCreating(modelBuilder);
 
         }
+        public DbSet<RegisterUser> RegisterUsers { get; set; }
     }
 }
