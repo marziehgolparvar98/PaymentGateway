@@ -27,7 +27,7 @@ namespace PaymentGateway.Identity.Controllers
             var result = await _authenticate.RegisterUserAsync(model);
             return result.ToHttpCodeResult();
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult LogOutUser()
         {
             var result =  _authenticate.LogOutUserAsync();
