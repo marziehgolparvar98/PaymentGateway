@@ -24,11 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Common\PaymentGateway.Common.csproj" />
     <ProjectReference Include="..\PaymentGateway.Provider\PaymentGateway.Provider.csproj" />
   </ItemGroup>
 
