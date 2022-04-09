@@ -35,9 +35,38 @@ namespace PaymentGateway.Identity
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(current =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PaymentGateway.Identity", Version = "v1" });
+                current.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                current.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Name = "Bearer",
+                            Scheme = "oauth2",
+
+                            In =
+                             ParameterLocation.Header,
+
+                            Reference =
+                                new OpenApiReference
+                                {
+                                    Type =ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                },
+                        },
+                        new List<string>()
+                    }
+                });
             });
             services.AddDbContext<ApplicationDbContext>(option =>
              option.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
@@ -45,20 +74,27 @@ namespace PaymentGateway.Identity
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IAuthenticateService, AuthenticateService>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
-                 options =>
-                 {
-                     options.TokenValidationParameters = new TokenValidationParameters
-                     {
-                         ValidateIssuer = true,
-                         ValidateAudience = true,
-                         ValidateLifetime = true,
-                         ValidateIssuerSigningKey = true,
-                         ValidIssuer = Configuration["JWT:Issuer"],
-                         ValidAudience = Configuration["JWT:Issuer"],
-                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
-                     };
-                 });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidAudience = Configuration["JWT:ValidAudience"],
+                    ValidIssuer = Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                };
+            });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
