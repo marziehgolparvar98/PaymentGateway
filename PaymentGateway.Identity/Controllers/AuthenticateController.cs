@@ -1,7 +1,7 @@
 ﻿using DataLayer.ViewModels.Authenticate;
 using Microsoft.AspNetCore.Mvc;
-using PaymentGateway.Provider.Interface;
 using PaymentGateway.Common;
+using PaymentGateway.Provider.Interface;
 
 namespace PaymentGateway.Identity.Controllers
 {
@@ -17,7 +17,7 @@ namespace PaymentGateway.Identity.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> LoginUser([FromBody] LoginViewModel model)
         {
-            var result =await _authenticate.LoginUserAsync(model);
+            var result = await _authenticate.LoginUserAsync(model);
             return result.ToHttpCodeResult();
         }
 
@@ -30,7 +30,7 @@ namespace PaymentGateway.Identity.Controllers
         [HttpPost("LogOut")]
         public IActionResult LogOutUser()
         {
-            var result =  _authenticate.LogOutUserAsync();
+            var result = _authenticate.LogOutUserAsync();
             return result.ToHttpCodeResult();
         }
 
