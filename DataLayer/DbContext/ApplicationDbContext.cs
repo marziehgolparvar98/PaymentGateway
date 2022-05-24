@@ -1,4 +1,5 @@
-﻿using DataLayer.Model.Authenticate;
+﻿using DataLayer.Model.AccountNumber;
+using DataLayer.Model.Authenticate;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,5 +20,6 @@ namespace DataLayer.DbContext
 
         }
         public DbSet<RegisterUser> RegisterUsers { get; set; }
+        public DbSet<AccountNumberGateway> accountNumberGateways { get; set; } 
     }
 }

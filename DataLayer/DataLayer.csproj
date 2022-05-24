@@ -24,4 +24,8 @@
     <Folder Include="Repository\Interface\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PaymentGateway.Common\PaymentGateway.Common.csproj" />
+  </ItemGroup>
+
 </Project>
